@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:lovemug_creator/core/pallette/pallete.dart';
 
 class EditProfileScreen extends StatefulWidget {
   @override
@@ -40,7 +41,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         title: Text("Edit Profile", style: GoogleFonts.poppins()),
         centerTitle: true,
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: primaryColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back,color: Colors.white,)
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
@@ -66,7 +73,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
                       child: IconButton(
-                        icon: Icon(Icons.camera_alt, color: Colors.pinkAccent),
+                        icon: Icon(Icons.camera_alt, color: primaryColor),
                         onPressed: _pickImage,
                       ),
                     ),
@@ -93,7 +100,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 controller: _nameController,
                 decoration: InputDecoration(
                   labelText: "Name",
-                  prefixIcon: Icon(Icons.person, color: Colors.pinkAccent),
+                  prefixIcon: Icon(Icons.person, color: primaryColor),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -113,7 +120,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 maxLines: 3,
                 decoration: InputDecoration(
                   labelText: "About Me",
-                  prefixIcon: Icon(Icons.info, color: Colors.pinkAccent),
+                  prefixIcon: Icon(Icons.info, color: primaryColor),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -137,7 +144,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pinkAccent,
+                  backgroundColor: primaryColor,
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

@@ -346,6 +346,9 @@ import 'package:flutter/material.dart';
 import '../../core/constants/variables.dart';
 import '../../core/pallette/pallete.dart';
 import '../bank/screens/bank_detailes_screen.dart';
+import '../call_earnings_management/screens/call_tile_page.dart';
+import '../post_creation/screens/post_list_screen.dart';
+import '../post_creation/screens/post_management_screen.dart';
 import '../profile/screens/profile_screen.dart';
 import '../settings/screens/settings_widget.dart';
 
@@ -374,10 +377,15 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
 
   // List of widget options for each tab
   static  List<Widget> _widgetOptions = <Widget>[
-    ProfileScreen(),
-    BankDetailsScreen(),
+    PostListScreen(),
+    CallTilePage(),
+    Container(),
+    Container(),
+    ProfileWidget(),
+    // BankDetailsScreen(),
+
+
     SettingsScreen(),
-    // Container(),
 
     // HomeWidget(),
     // ChatWidget(),
@@ -421,52 +429,55 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar:BottomBarInspiredOutside(
-        items: items,
-        backgroundColor: primaryColor,
-        color: Colors.white,
-        colorSelected: Colors.white,
-        indexSelected: _selectedIndex,
-        onTap: (int index) => setState(() {
-          _selectedIndex = index;
-        }),
-        top: -25,
-        animated: true,
-        itemStyle: ItemStyle.hexagon,
-        chipStyle:const ChipStyle(drawHexagon: true,background: primaryColor
-        ),
-      ),
-      // bottomNavigationBar: Container(
+      // bottomNavigationBar:BottomBarInspiredOutside(
+      //   items: items,
+      //   backgroundColor: primaryColor,
       //   color: Colors.white,
-      //   child: BottomNavigationBar(
-      //     // backgroundColor:  Colors.grey.withOpacity(0.2),
-      //     backgroundColor:  Colors.white,
-      //     // backgroundColor: primaryColor2,
-      //     items: const <BottomNavigationBarItem>[
-      //
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.home),
-      //          label: '',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.email_outlined),
-      //          label: '',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.call),
-      //          label: '',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.person),
-      //         label: '',
-      //       ),
-      //     ],
-      //     currentIndex: _selectedIndex,
-      //     selectedItemColor: primaryColor,
-      //     unselectedItemColor: Colors.grey.shade800,
-      //     onTap: _onItemTapped,
+      //   colorSelected: Colors.white,
+      //   indexSelected: _selectedIndex,
+      //   onTap: (int index) => setState(() {
+      //     _selectedIndex = index;
+      //   }),
+      //   top: -25,
+      //   animated: true,
+      //   itemStyle: ItemStyle.hexagon,
+      //   chipStyle:const ChipStyle(drawHexagon: true,background: primaryColor
       //   ),
       // ),
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        child: BottomNavigationBar(
+          // backgroundColor:  Colors.grey.withOpacity(0.2),
+          backgroundColor:  Colors.white,
+          // backgroundColor: primaryColor2,
+          items: const <BottomNavigationBarItem>[
+
+            BottomNavigationBarItem(
+              icon: Icon(Icons.post_add,),
+               label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.call),
+               label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.group),
+               label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: '',
+            ),BottomNavigationBarItem(
+              icon: Icon(Icons.person_rounded,),
+              label: '',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: primaryColor,
+          unselectedItemColor: Colors.grey.shade800,
+          onTap: _onItemTapped,
+        ),
+      ),
     );
   }
 }

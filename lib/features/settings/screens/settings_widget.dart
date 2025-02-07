@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/variables.dart';
+import '../../ticket_system/screens/ticket_history.dart';
+import 'blocked_user_list.dart';
 
 
 
@@ -63,10 +65,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+        // leading: IconButton(
+        //   icon: Icon(Icons.arrow_back),
+        //   onPressed: () => Navigator.pop(context),
+        // ),
       ),
       body: ListView(
         padding: EdgeInsets.all(16),
@@ -86,7 +88,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // Report a Problem
           Divider(),
-          _buildSimpleListTile("Report a problem"
+          _buildSimpleListTile("Ticket System"
+              // Icons.report
+          ),_buildSimpleListTile("Blocked Users"
               // Icons.report
           ),
 
@@ -118,6 +122,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         if(title=='Delete Account'){
           _softDeleteAccount(context);
 
+
+        }else if(title=='Blocked Users'){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>BlockedUsersScreen()));
+
+
+        }else if(title=='Ticket System'){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>TicketHistoryScreen()));
 
         }
         // Implement functionality

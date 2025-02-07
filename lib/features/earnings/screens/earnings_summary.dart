@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lovemug_creator/core/constants/variables.dart';
+
+import '../../../core/pallette/pallete.dart';
 
 class EarningsSummaryScreen extends StatefulWidget {
   @override
@@ -46,16 +49,37 @@ class _EarningsSummaryScreenState extends State<EarningsSummaryScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Earnings Summary", style: GoogleFonts.poppins()),
+          title: Text("Earnings Summary", style: GoogleFonts.poppins(color: Colors.white)),
           centerTitle: true,
-          backgroundColor: Colors.pinkAccent,
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            tabs: [
-              Tab(text: "Current Earnings"),
-              Tab(text: "Payout History"),
-            ],
+          leading: InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back,color: Colors.white,)
           ),
+          backgroundColor: primaryColor,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(50),
+            child: Container(
+              height: 50,
+
+              child: TabBar(
+                labelColor: Colors.white, // White text for selected tab
+                unselectedLabelColor: Colors.grey, // Primary color for unselected tabs
+                // indicator: BoxDecoration(
+                //   color: Colors.white, // Primary color background for selected tab
+                //   borderRadius: BorderRadius.circular(10), // Smooth selection effect
+                // ),
+                labelStyle: poppinsTextStyle(fontWeight: FontWeight.bold),
+                tabs: [
+                  Tab(text: "Current Earnings"),
+                  Tab(text: "Payout History"),
+                ],
+              ),
+            ),
+          ),
+
+
         ),
         body: TabBarView(
           children: [
@@ -82,7 +106,7 @@ class _EarningsSummaryScreenState extends State<EarningsSummaryScreen> {
           ElevatedButton(
             onPressed: _requestPayout,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.pinkAccent,
+              backgroundColor: primaryColor,
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
@@ -158,7 +182,7 @@ class _EarningsSummaryScreenState extends State<EarningsSummaryScreen> {
         padding: EdgeInsets.all(20),
         child: Row(
           children: [
-            Icon(icon, color: Colors.pinkAccent, size: 30),
+            Icon(icon, color:primaryColor, size: 30),
             SizedBox(width: 15),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

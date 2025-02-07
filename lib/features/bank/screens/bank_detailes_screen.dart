@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lovemug_creator/core/constants/variables.dart';
+import 'package:lovemug_creator/core/pallette/pallete.dart';
 
 class BankDetailsScreen extends StatefulWidget {
   @override
@@ -95,13 +97,19 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bank Details", style: GoogleFonts.poppins()),
+        title: Text("Bank Details", style: GoogleFonts.poppins(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: primaryColor,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back,color: Colors.white,)
+        ),
         actions: [
           if (bankAccounts.isNotEmpty)
             IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.add,color: Colors.white,),
               onPressed: _toggleAddNewAccount,
             ),
         ],
@@ -112,9 +120,9 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
             ? Center(
           child: ElevatedButton(
             onPressed: _toggleAddNewAccount,
-            child: Text("Add Bank Account"),
+            child: Text("Add Bank Account",style: poppinsTextStyle(color: Colors.white),),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.pinkAccent,
+              backgroundColor: primaryColor,
             ),
           ),
         )
@@ -175,8 +183,8 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                           children: [
                             ElevatedButton(
                               onPressed: () => _saveBankDetails(isEditing ? bankAccounts.indexWhere((element) => element['accountNumber'] == _accountNumberController.text) : null),
-                              child: Text("Save"),
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent),
+                              child: Text("Save",style: poppinsTextStyle(color: Colors.white),),
+                              style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
                             ),
                             TextButton(
                               onPressed: () {

@@ -39,6 +39,9 @@ dependencies:
   awesome_bottom_bar:
   image_picker:
   animate_do:
+  story_view:
+  flutter_story_view: ^0.0.4
+  uuid:
 
 dev_dependencies:
   flutter_test:
