@@ -41,12 +41,24 @@ dependencies:
   animate_do:
   story_view:
   flutter_story_view: ^0.0.4
+  google_sign_in:
+  lottie:
+  audioplayers:
+  fl_chart: ^0.50.5
+  firebase_auth:
+  firebase_core:
+  animations:
+  http:
   uuid:
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
-
+flutter_icons:
+  android: true  # For Android
+  ios: true      # For iOS
+  image_path: "assets/images/logo1.png"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -66,8 +78,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -11,193 +11,25 @@ class StatusUpdatesScreen extends StatefulWidget {
 class _StatusUpdatesScreenState extends State<StatusUpdatesScreen> {
   List<Map<String, dynamic>> statuses = [];
 
-  Future<void> _addStatus() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      TextEditingController descriptionController = TextEditingController();
-
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Add Status'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: descriptionController,
-                  decoration: InputDecoration(labelText: 'Description'),
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              ElevatedButton(
-                child: Text('Upload'),
-                onPressed: () {
-                  setState(() {
-                    statuses.add({
-                      "image": File(pickedFile.path),
-                      "description": descriptionController.text,
-                      "timestamp": DateTime.now(),
-                      "likes": 0,
-                      "likedBy": [],
-                    });
-                  });
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
+  void _addNewStatus(Map<String, dynamic> newStatus) {
+    setState(() {
+      statuses.add(newStatus);
+    });
   }
-  Future<void> _postStatus() async {
-    TextEditingController descriptionController = TextEditingController();
-    File? selectedImage;
 
+  Future<void> _postStatus() async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            Future<void> _pickImage(ImageSource source) async {
-              final ImagePicker _picker = ImagePicker();
-              final pickedFile = await _picker.pickImage(source: source);
-              if (pickedFile != null) {
-                setState(() {
-                  selectedImage = File(pickedFile.path);
-                });
-              }
-            }
-
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              title: Text(
-                'Add New Status',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SafeArea(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    leading: Icon(Icons.photo_library),
-                                    title: Text('Gallery'),
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                      _pickImage(ImageSource.gallery);
-                                    },
-                                  ),
-                                  ListTile(
-                                    leading: Icon(Icons.camera_alt),
-                                    title: Text('Camera'),
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                      _pickImage(ImageSource.camera);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(10),
-                          image: selectedImage != null
-                              ? DecorationImage(
-                            image: FileImage(selectedImage!),
-                            fit: BoxFit.cover,
-                          )
-                              : null,
-                        ),
-                        child: selectedImage == null
-                            ? Center(
-                          child: Icon(
-                            Icons.add_a_photo,
-                            color: Colors.grey[800],
-                            size: 50,
-                          ),
-                        )
-                            : null,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    TextField(
-                      controller: descriptionController,
-                      decoration: InputDecoration(
-                        labelText: 'Description',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      maxLines: 3,
-                    ),
-                  ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: Text('Cancel'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                ElevatedButton(
-                  child: Text('Upload'),
-                  onPressed: () {
-                    if (selectedImage != null &&
-                        descriptionController.text.isNotEmpty) {
-                      setState(() {
-                        statuses.add({
-                          "image": selectedImage,
-                          "description": descriptionController.text,
-                          "timestamp": DateTime.now(),
-                          "likes": 0,
-                          "likedBy": [],
-                        });
-                      });
-                      Navigator.of(context).pop();
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              'Please provide both image and description.'),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            );
-          },
+        return PostStatus(
+          addStatusCallback: _addNewStatus,
         );
       },
     );
   }
+
+
 
   void _toggleLike(int index) {
     setState(() {
@@ -212,18 +44,45 @@ class _StatusUpdatesScreenState extends State<StatusUpdatesScreen> {
   }
 
   void _viewAnalytics(int index) {
-    List<String> likedBy = (statuses[index]["likedBy"] as List<dynamic>).cast<String>();
+    // Retrieve the 'viewedBy' list; if null, assign an empty list
+    List<String> viewedBy = (statuses[index]["viewedBy"] as List<dynamic>?)?.cast<String>() ?? [];
 
+    // Retrieve the 'likedBy' list; if null, assign an empty list
+    List<String> likedBy = (statuses[index]["likedBy"] as List<dynamic>?)?.cast<String>() ?? [];
+
+    // Rest of your code remains unchanged
     showModalBottomSheet(
       context: context,
       builder: (context) {
         return Container(
           padding: EdgeInsets.all(16),
-          height: likedBy.isEmpty ? 200 : 300,
+          height: 400,
           child: Column(
             children: [
               Text(
                 "Viewers",
+                style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Divider(),
+              viewedBy.isEmpty
+                  ? Text("No views yet.", style: GoogleFonts.poppins(fontSize: 16))
+                  : Expanded(
+                child: ListView.builder(
+                  itemCount: viewedBy.length,
+                  itemBuilder: (context, i) {
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            "https://randomuser.me/api/portraits/men/${i + 10}.jpg"),
+                      ),
+                      title: Text(viewedBy[i], style: GoogleFonts.poppins()),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Likes",
                 style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Divider(),
@@ -235,7 +94,8 @@ class _StatusUpdatesScreenState extends State<StatusUpdatesScreen> {
                   itemBuilder: (context, i) {
                     return ListTile(
                       leading: CircleAvatar(
-                        backgroundImage: NetworkImage("https://randomuser.me/api/portraits/men/${i + 10}.jpg"),
+                        backgroundImage: NetworkImage(
+                            "https://randomuser.me/api/portraits/women/${i + 10}.jpg"),
                       ),
                       title: Text(likedBy[i], style: GoogleFonts.poppins()),
                     );
@@ -248,7 +108,34 @@ class _StatusUpdatesScreenState extends State<StatusUpdatesScreen> {
       },
     );
   }
-
+  void _deleteStatus(int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Status'),
+          content: Text('Are you sure you want to delete this status?'),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: Text('Delete'),
+              onPressed: () {
+                setState(() {
+                  statuses.removeAt(index);
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -258,7 +145,8 @@ class _StatusUpdatesScreenState extends State<StatusUpdatesScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.add_a_photo, color: Colors.white),
-            onPressed: _addStatus,
+            onPressed: _postStatus,
+            // onPressed: _addStatus,
           ),
         ],
       ),
@@ -331,3 +219,136 @@ class _StatusUpdatesScreenState extends State<StatusUpdatesScreen> {
     );
   }
 }
+class PostStatus extends StatefulWidget {
+  final Function(Map<String, dynamic>) addStatusCallback;
+
+  const PostStatus({Key? key, required this.addStatusCallback}) : super(key: key);
+
+  @override
+  _PostStatusState createState() => _PostStatusState();
+}
+
+class _PostStatusState extends State<PostStatus> {
+  File? selectedImage;
+  TextEditingController descriptionController = TextEditingController();
+
+  Future<void> _pickImage(ImageSource source) async {
+    final ImagePicker _picker = ImagePicker();
+    final pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      title: Text(
+        'Add New Status',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () async {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SafeArea(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            leading: Icon(Icons.photo_library),
+                            title: Text('Gallery'),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              _pickImage(ImageSource.gallery);
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.camera_alt),
+                            title: Text('Camera'),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              _pickImage(ImageSource.camera);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Container(
+                width: double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                  image: selectedImage != null
+                      ? DecorationImage(
+                    image: FileImage(selectedImage!),
+                    fit: BoxFit.cover,
+                  )
+                      : null,
+                ),
+                child: selectedImage == null
+                    ? Center(
+                  child: Icon(
+                    Icons.add_a_photo,
+                    color: Colors.grey[800],
+                    size: 50,
+                  ),
+                )
+                    : null,
+              ),
+            ),
+            TextField(
+              controller: descriptionController,
+              decoration: InputDecoration(labelText: 'Description'),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          child: Text('Cancel'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        ElevatedButton(
+          child: Text('Upload'),
+          onPressed: () {
+            if (selectedImage != null) {
+              final newStatus = {
+                "image": selectedImage!,
+                "description": descriptionController.text,
+                "timestamp": DateTime.now(),
+                "likes": 0,
+                "likedBy": [],
+              };
+              widget.addStatusCallback(newStatus);
+              Navigator.of(context).pop();
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Please select an image.'),
+                ),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+}
+

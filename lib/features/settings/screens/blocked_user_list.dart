@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lovemug_creator/core/pallette/pallete.dart';
 
 import '../../../core/constants/variables.dart';
+import '../../../model/user_model.dart';
 
 
 
@@ -13,9 +14,9 @@ class BlockedUsersScreen extends StatefulWidget {
 class _BlockedUsersScreenState extends State<BlockedUsersScreen> {
   // Simulated blocked creators list (replace with actual database fetch)
   List<User> blockedUsers = [
-    User(name: "John Doe", profilePic: "https://via.placeholder.com/150"),
-    User(name: "Alice Smith", profilePic: "https://via.placeholder.com/150"),
-    User(name: "Michael Brown", profilePic: "https://via.placeholder.com/150"),
+    User(name: "John Doe", profilePic: "https://via.placeholder.com/150", id: '', email: ''),
+    User(name: "Alice Smith", profilePic: "https://via.placeholder.com/150", id: '', email: ''),
+    User(name: "Michael Brown", profilePic: "https://via.placeholder.com/150", id: '', email: ''),
   ];
 
   void _unblockUser(int index) {
@@ -106,9 +107,9 @@ class _BlockedUsersScreenState extends State<BlockedUsersScreen> {
 }
 
 // Model Class for User
-class User {
-  final String name;
-  final String profilePic;
-
-  User({required this.name, required this.profilePic});
-}
+// class User {
+//   final String name;
+//   final String profilePic;
+//
+//   User({required this.name, required this.profilePic});
+// }

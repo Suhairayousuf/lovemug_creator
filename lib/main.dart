@@ -1,10 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'features/auth/google_sign.dart';
 import 'features/home/navigation_page.dart';
+import 'firebase_options.dart';
 
 // import 'features/Home/screen/splash_screen.dart';
 
-void main() {
+Future<void> main() async {
+
+// ...
+
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   runApp(const MyApp());
 }
 
@@ -22,7 +31,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: NavigationBarPage(),
+      home: GoogleSignInPage(),
+      //home: NavigationBarPage(userId: '',),
 
     );
   }

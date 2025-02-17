@@ -26,7 +26,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => NavigationBarPage(initialIndex: 0),
+            builder: (context) => NavigationBarPage(initialIndex: 0, userId: '',),
           ),
               (route) => false,
         );

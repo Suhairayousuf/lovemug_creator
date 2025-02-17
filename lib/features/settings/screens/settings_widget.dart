@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/variables.dart';
+import '../../home/navigation_page.dart';
 import '../../ticket_system/screens/ticket_history.dart';
 import 'blocked_user_list.dart';
 
@@ -62,44 +64,100 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Settings"),
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back),
-        //   onPressed: () => Navigator.pop(context),
-        // ),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NavigationBarPage(initialIndex: 0, userId: '',),
+          ),
+              (route) => false,
+        );
+        return false; // Prevents the current page from popping
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Settings"),
+          // leading: IconButton(
+          //   icon: Icon(Icons.arrow_back),
+          //   onPressed: () => Navigator.pop(context),
+          // ),
+        ),
+        body: ListView(
+          padding: EdgeInsets.all(16),
+          children: [
+            // Do Not Disturb Switch
+            // _buildSwitchTile("Do not disturb", doNotDisturb, (value) {
+            //   setState(() {
+            //     doNotDisturb = value;
+            //   });
+            // }),
+
+            // Upload Logs
+            // _buildSimpleListTile("Upload logs", Icons.cloud_upload),
+
+            // Expandable Our Policies Section
+            _buildExpandablePolicies(),
+
+            // Report a Problem
+            Divider(),
+            // _buildSimpleListTile("Tickets"
+                // Icons.report
+            // ),
+            _buildMenuItem(Icons.receipt, "Tickets",3),
+            SizedBox(height: 10,),
+
+            _buildMenuItem(Icons.block, "Blocked & Hidden List",5),
+
+            // _buildSimpleListTile("Blocked Users"
+            //     // Icons.report
+            // ),
+
+            // Delete Account
+        _buildMenuItem(Icons.delete, "Delete Account",5),
+
+      // _buildSimpleListTile("Delete Account"
+      //           // Icons.delete, textColor: Colors.red
+      //       ),
+          ],
+        ),
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16),
+    );
+  }
+
+  Widget _buildMenuItem(IconData icon, String title,int type, {String? trailingText, bool showRedDot = false}) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.purple,size: 30,),
+      title: InkWell(
+          onTap: () {
+            if(title=='Delete Account'){
+              _softDeleteAccount(context);
+
+
+            }else if(title=='Blocked & Hidden List'){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>BlockedUsersScreen()));
+
+
+            }else if(title=='Tickets'){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>TicketHistoryScreen()));
+
+            }
+            // Implement functionality
+          },
+          child: Text(title, style: GoogleFonts.poppins(fontSize: 19))),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Do Not Disturb Switch
-          // _buildSwitchTile("Do not disturb", doNotDisturb, (value) {
-          //   setState(() {
-          //     doNotDisturb = value;
-          //   });
-          // }),
-
-          // Upload Logs
-          // _buildSimpleListTile("Upload logs", Icons.cloud_upload),
-
-          // Expandable Our Policies Section
-          _buildExpandablePolicies(),
-
-          // Report a Problem
-          Divider(),
-          _buildSimpleListTile("Ticket System"
-              // Icons.report
-          ),_buildSimpleListTile("Blocked Users"
-              // Icons.report
-          ),
-
-          // Delete Account
-          _buildSimpleListTile("Delete Account"
-              // Icons.delete, textColor: Colors.red
-          ),
+          if (trailingText != null) Text(trailingText, style: GoogleFonts.poppins(color: Colors.green)),
+          // if (showRedDot)
+          //   Padding(
+          //     padding: const EdgeInsets.only(left: 8),
+          //     child: Icon(Icons.circle, color: Colors.red, size: 8),
+          //   ),
+          Icon(Icons.chevron_right, color: Colors.grey),
         ],
       ),
+      onTap: () {},
     );
   }
 

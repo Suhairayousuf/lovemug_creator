@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "949879251220",
+    "project_id": "lovemug-6be32",
+    "storage_bucket": "lovemug-6be32.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949879251220:android:53ef889764e00e0537e201",
+        "android_client_info": {
+          "package_name": "com.example.lovemug_creator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949879251220-j5pp936h3tlnai5mo0c593nnuiou8is5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lovemug_creator",
+            "certificate_hash": "347ee87e7515d79f78d88c92c4a182480b8794b4"
+          }
+        },
+        {
+          "client_id": "949879251220-1pgpt85bnsj9c9ufot9fdbh8cjj54p3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg1AIrEh6f03eWtH0KAxkD8UyLDDjnZI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949879251220-1pgpt85bnsj9c9ufot9fdbh8cjj54p3d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "949879251220-ieetq8kg5nle28h1dmd6iin6d0fakqft.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lovemugCreator"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
